@@ -9,8 +9,6 @@ CLASS demo DEFINITION.
     CLASS-METHODS:
       main,
       return_hello
-        IMPORTING
-                  i             TYPE i OPTIONAL
         RETURNING VALUE(r_text) TYPE string.
 
 ENDCLASS.
