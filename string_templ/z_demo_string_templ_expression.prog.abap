@@ -8,6 +8,9 @@ CLASS demo DEFINITION.
   PUBLIC SECTION.
     CLASS-METHODS:
       main,
+      "! <p>Function returns 'Echo' for i_iter times</p>
+      "! @parameter i_iter | Number of iterations
+      "! @parameter r_echo | Answer
       return_echo
         IMPORTING
                   i_iter        TYPE i
@@ -20,6 +23,7 @@ ENDCLASS.
 CLASS demo IMPLEMENTATION.
 
   METHOD main.
+    " Another comment
     cl_demo_output=>new(
         )->write( |Hello world!|
         )->write( |{ demo=>return_hello( ) } world!|
