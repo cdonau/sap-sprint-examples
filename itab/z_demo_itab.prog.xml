@@ -17,6 +17,48 @@
      <ENTRY>Different Examples for handling internal tables</ENTRY>
      <LENGTH>47</LENGTH>
     </item>
+    <item>
+     <ID>S</ID>
+     <KEY>P_CORRE</KEY>
+     <ENTRY>DEMO #7 - CORRESPONDIG</ENTRY>
+     <LENGTH>30</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>P_FILTER</KEY>
+     <ENTRY>DEMO #8 - Filter</ENTRY>
+     <LENGTH>24</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>P_GROUP</KEY>
+     <ENTRY>DEMO #6 - REDUCE</ENTRY>
+     <LENGTH>24</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>P_LINE</KEY>
+     <ENTRY>DEMO #4-LINE_EXISTS&amp;LINE_INDEX</ENTRY>
+     <LENGTH>38</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>P_OLD</KEY>
+     <ENTRY>Before 7.40 - the old way</ENTRY>
+     <LENGTH>33</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>P_READ</KEY>
+     <ENTRY>DEMO #3 - Read wo READ</ENTRY>
+     <LENGTH>30</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
+     <KEY>P_REDUCE</KEY>
+     <ENTRY>DEMO #5 - REDUCE</ENTRY>
+     <LENGTH>24</LENGTH>
+    </item>
    </TPOOL>
   </asx:values>
  </asx:abap>

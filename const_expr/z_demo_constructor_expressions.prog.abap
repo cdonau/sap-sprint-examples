@@ -14,8 +14,9 @@ CLASS demo DEFINITION.
       start_demo.
 
   PRIVATE SECTION.
+
     METHODS:
-      _0_intro,
+      _intro,
       _cond_operator,
       _new_operator,
       _value_operator,
@@ -26,7 +27,7 @@ CLASS demo DEFINITION.
           i_string TYPE string,
       _give_me_an_unsorted_table
         IMPORTING
-          i_some_sorted_table TYPE REF TO crmt_object_guid_tab_unsorted.
+          i_some_unsorted_table TYPE REF TO crmt_object_guid_tab_unsorted.
 ENDCLASS.
 
 CLASS demo_child DEFINITION INHERITING FROM demo.
@@ -35,8 +36,7 @@ ENDCLASS.
 CLASS demo IMPLEMENTATION.
 
   METHOD start_demo.
-    _0_intro( ).
-    _value_operator( ).
+    _intro( ).
     _new_operator( ).
     _value_operator( ).
     _conv_and_cast_operator( ).
@@ -45,18 +45,19 @@ CLASS demo IMPLEMENTATION.
 
   ENDMETHOD.
 
-  METHOD _0_intro.
-
-
-
-*With Release 7.40 ABAP supports so called constructor operators.
-* Constructor operators are used in constructor expressions to create a result that can be used at operand positions. The syntax for constructor expressions is
+  METHOD _intro.
+* With Release 7.40 ABAP supports so called constructor operators.
+* Constructor operators are used in constructor expressions to create a result
+* that can be used at operand positions. The syntax for constructor expressions is
 *
 * operator type( … ) …
 *
-*operator is a constructor operator. type is either the explicit name of a data type or the character #. With # the data type can be dreived from the operand
-*position if the operand type is statically known. Inside the parentheses specific parameters can be specified.
-
+* operator is a constructor operator. type is either the explicit name of a data type
+* or the character #. With # the data type can be derived from the operand
+* position if the operand type is statically known. Inside the parentheses specific
+* parameters can be specified.
+*
+* Horst Keller
 
   ENDMETHOD.
 
@@ -84,7 +85,7 @@ CLASS demo IMPLEMENTATION.
     ).
 
 
-
+    " Equivalent ot
     IF sy-timlo < '120000'.
       time = |{ sy-timlo TIME = ISO } AM|.
     ELSEIF sy-timlo > '120000'.
@@ -95,22 +96,33 @@ CLASS demo IMPLEMENTATION.
       RAISE EXCEPTION TYPE cx_aab_static.
     ENDIF.
 
+
+    """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+    " Switch is like case in operator position
+
+    DATA(switch_result) = SWITCH string( sy-langu
+                                            WHEN 'D' THEN 'DE'
+                                            WHEN 'E' THEN 'EN'
+    ).
+
   ENDMETHOD.
 
 
   METHOD _new_operator.
     " The instance operator NEW creates an anonymous data object
     " or an instance of a class and assigns values to the new object.
-    " The result is a reference variable that points to the new object.
+    " The result is a REFERENCE variable that points to the new object.
 
     """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
     " Use new with data types as type
     """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
     " With constructor operator
     DATA some_text TYPE REF TO string.
     some_text = NEW string( |Hello World| ).
     " This is the same:
     some_text = NEW #( |Hello World!| ).
+
 
     " Equivalent to
     DATA some_other_text TYPE REF TO string.
@@ -124,12 +136,15 @@ CLASS demo IMPLEMENTATION.
     """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
     " Use new with classes as type
     """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
     " With constructor operator
     DATA(some_class) = NEW demo( ).
+
 
     " Equivalent to
     DATA some_other_class TYPE REF TO demo.
     CREATE OBJECT some_other_class TYPE demo.
+
 
     """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
     " Use new with # as type
@@ -155,11 +170,13 @@ CLASS demo IMPLEMENTATION.
                                            type = sy-msgty
                                            number = sy-msgno ).
 
+
     " Equivalent to
     DATA some_other_structure TYPE bapiret2.
     some_other_structure-id = sy-msgid.
     some_other_structure-type = sy-msgty.
     some_other_structure-number = sy-msgno.
+
 
     """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
     " This gets even better when you construct tables...
@@ -172,6 +189,7 @@ CLASS demo IMPLEMENTATION.
 
     DATA(error_messages) = VALUE bapiret2_t( ( id = sy-msgid type = |E| number = 1 )
                                              ( id = sy-msgid type = |W| number = 2 ) ).
+
 
     " Equivalent to
     DATA other_error_messages TYPE bapiret2_t.
@@ -188,10 +206,19 @@ CLASS demo IMPLEMENTATION.
     error_structure-number = 2.
     APPEND error_structure TO other_error_messages.
 
+
+    """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+    " Additional examples using internal tables
+
+    " That's nice:
+    APPEND VALUE #( id = sy-msgid type = |W| number = 3 ) TO error_messages.
+
+    " Unfortunately this still needs two lines
+    APPEND INITIAL LINE TO error_messages.
+    error_messages[ 1 ] = VALUE #( id = sy-msgid type = |W| number = 3 ).
+
+
   ENDMETHOD.
-
-
-
 
   METHOD _conv_and_cast_operator.
     """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -204,6 +231,7 @@ CLASS demo IMPLEMENTATION.
 
     DATA(some_sorted_table) = NEW crmt_object_guid_tab( ).
     _give_me_an_unsorted_table( CONV #( some_sorted_table ) ).
+
 
 
     " Equivalent to
